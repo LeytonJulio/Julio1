@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebApplication1.Models.Venta>
+
+@{
+    ViewBag.Title = "Lista de Ventas";
+}
+
+<h2>Lista de Ventas</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-controller="Item" asp-action="Index" class="btn btn-success">Lista de Items</a>
+<hr />
+<a asp-action="ListaVentasCrear" class="btn btn-success mb-3">Registrar Nueva Venta</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Item</th>
+            <th>Cantidad</th>
+            <th>Costo Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var venta in Model)
+        {
+            <tr>
+                <td>@venta.Id</td>
+                <td>@venta.Fecha.ToShortDateString()</td>
+                <td>@venta.Item?.Description</td>
+                <td>@venta.Cantidad</td>
+                <td>$@venta.Costo</td>
+                <td>$@venta.SubTotal</td>
+            </tr>
+        }
+    </tbody>
+</table>

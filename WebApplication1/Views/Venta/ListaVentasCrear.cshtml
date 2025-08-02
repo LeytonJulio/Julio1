@@ -1,0 +1,67 @@
+﻿@model WebApplication1.Models.Venta
+
+@{
+    ViewBag.Title = "Registrar Nueva Venta";
+    var items = ViewBag.Items as List<WebApplication1.Models.Item>;
+}
+
+<h2>Registrar Nueva Venta</h2>
+
+<form asp-action="ListaVentasCrear" method="post">
+    <div class="form-group">
+        <label>Item</label>
+        <select asp-for="IdItem" class="form-control" id="itemSelect">
+            <option value="">Seleccione un item...</option>
+            @foreach (var item in items)
+            {
+                <option value="@item.Id" data-precio="@item.price">
+                    @item.Description
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Fecha</label>
+        <input asp-for="Fecha" type="date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Cantidad</label>
+        <input asp-for="Cantidad" type="number" step="1" class="form-control" id="cantidadInput" />
+    </div>
+
+    <div class="form-group">
+        <label>Costo</label>
+        <input asp-for="Costo" type="number" step="0.01" class="form-control" id="costoInput" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>SubTotal</label>
+        <input asp-for="SubTotal" class="form-control" id="subTotalInput" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Venta</button>
+    <a asp-action="ListaVentas" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <script>
+        const itemSelect = document.getElementById('itemSelect');
+        const cantidadInput = document.getElementById('cantidadInput');
+        const costoInput = document.getElementById('costoInput');
+        const subTotalInput = document.getElementById('subTotalInput');
+
+        function actualizarCostoYSubTotal() {
+            const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+            const precio = parseFloat(selectedOption.getAttribute('data-precio')) || 0;
+            const cantidad = parseFloat(cantidadInput.value) || 0;
+
+            costoInput.value = precio.toFixed(2);
+            subTotalInput.value = (precio * cantidad).toFixed(2);
+        }
+
+        itemSelect.addEventListener('change', actualizarCostoYSubTotal);
+        cantidadInput.addEventListener('input', actualizarCostoYSubTotal);
+    </script>
+}

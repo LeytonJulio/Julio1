@@ -1,0 +1,32 @@
+﻿@model WebApplication1.Models.Item
+
+@{
+    ViewData["Title"] = "Editar Item";
+}
+
+<h2>Editar Item</h2>
+
+<form asp-action="Edit" method="post">
+    @* Campo oculto para el Id *@
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Descripción</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="price" class="control-label">Precio</label>
+        <input asp-for="price" class="form-control" />
+        <span asp-validation-for="price" class="text-danger"></span>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
